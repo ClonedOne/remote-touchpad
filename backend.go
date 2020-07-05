@@ -46,8 +46,8 @@ type BackendInfo struct {
 
 var Backends []BackendInfo = []BackendInfo{
 	{"X11", InitX11Backend},
-	{"RemoteDesktop portal", InitPortalBackend},
-	{"Windows", InitWindowsBackend},
+	// {"RemoteDesktop portal", InitPortalBackend},
+	// {"Windows", InitWindowsBackend},
 }
 
 type UnsupportedPlatformError struct {
