@@ -46,8 +46,6 @@ type BackendInfo struct {
 
 var Backends []BackendInfo = []BackendInfo{
 	{"X11", InitX11Backend},
-	// {"RemoteDesktop portal", InitPortalBackend},
-	// {"Windows", InitWindowsBackend},
 }
 
 type UnsupportedPlatformError struct {
@@ -60,8 +58,6 @@ func (e UnsupportedPlatformError) Error() string {
 
 type Backend interface {
 	Close() error
-	KeyboardText(text string) error
-	KeyboardKey(key Key) error
 	PointerButton(button PointerButton, press bool) error
 	PointerMove(deltaX, deltaY int) error
 	PointerScroll(deltaHorizontal, deltaVertical int) error

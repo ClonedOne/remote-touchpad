@@ -36,7 +36,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"unicode/utf8"
 )
 
 const (
@@ -56,16 +55,6 @@ func processCommand(backend Backend, command string) error {
 	if command == "sf" {
 		return backend.PointerScrollFinish()
 	}
-	if command[0] == 't' {
-		text := command[1:]
-		// normalize line endings
-		text = strings.Replace(text, "\r\n", "\n", -1)
-		text = strings.Replace(text, "\r", "\n", -1)
-		if !utf8.ValidString(text) {
-			return errors.New("invalid utf-8")
-		}
-		return backend.KeyboardText(text)
-	}
 	arguments := strings.Split(command[1:], ";")
 	if command[0] == 'k' && len(arguments) != 1 ||
 		command[0] != 'k' && len(arguments) != 2 {
@@ -74,12 +63,6 @@ func processCommand(backend Backend, command string) error {
 	x, err := strconv.ParseInt(arguments[0], 10, 32)
 	if err != nil {
 		return err
-	}
-	if command[0] == 'k' {
-		if x < 0 || x >= int64(KeyLimit) {
-			return errors.New("unsupported key")
-		}
-		return backend.KeyboardKey(Key(x))
 	}
 	y, err := strconv.ParseInt(arguments[1], 10, 32)
 	if err != nil {
